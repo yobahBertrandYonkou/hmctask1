@@ -77,7 +77,7 @@ connection {
 type = "ssh"
 user = "ec2-user"
 host = aws_instance.myos1.public_ip
-private_key = file("/root/terrafolder/${local_file.private_key_file.filename}")
+private_key = file("/var/lib/jenkins/workspace/terraRunner/${local_file.private_key_file.filename}")
 }
 
 provisioner "remote-exec" {
@@ -124,7 +124,7 @@ connection {
 type = "ssh"
 user = "ec2-user"
 host = aws_instance.myos1.public_ip
-private_key = file("/root/terrafolder/${local_file.private_key_file.filename}")
+private_key = file("/var/lib/jenkins/workspace/terraRunner/${local_file.private_key_file.filename}")
 }
 
 //mounts attached volume
@@ -158,12 +158,12 @@ resource "aws_s3_bucket" "cf_bucket" {
 //uploads all images to s3 bucket
 resource "aws_s3_bucket_object" "upload_images" {
 depends_on = [ aws_s3_bucket.cf_bucket ]
-  for_each = fileset("/root/terrafolder/static_files/", "**/**.jpg")
+  for_each = fileset("/var/lib/jenkins/workspace/terraRunner/static_files/", "**/**.jpg")
   force_destroy = true
   content_type = "image/jpg"
   bucket = aws_s3_bucket.cf_bucket.bucket
   key    = each.value
-  source = "/root/terrafolder/static_files/${each.value}"
+  source = "/var/lib/jenkins/workspace/terraRunner/static_files/${each.value}"
 }
 
 
@@ -331,7 +331,7 @@ connection {
 type = "ssh"
 user = "ec2-user"
 host = aws_instance.myos1.public_ip
-private_key = file("/root/terrafolder/${local_file.private_key_file.filename}")
+private_key = file("/var/lib/jenkins/workspace/terraRunner/${local_file.private_key_file.filename}")
 }
 
 provisioner "remote-exec" {
