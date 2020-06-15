@@ -339,3 +339,12 @@ inline =[ "sudo sed -i 's/${var.default_url}/${aws_cloudfront_distribution.cloud
 }
 }
 
+/*=============================================================================================*/
+//creates snapshot of ebs_volume
+resource "aws_ebs_snapshot" "myos1_snapshot" {
+  volume_id = "${aws_ebs_volume.webvolume.id}"
+
+  tags = {
+    Name = "webserver_snap"
+  }
+}
